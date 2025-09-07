@@ -15,6 +15,9 @@ public:
 	AMovingPlatform();
 	virtual void Tick(float DeltaSeconds) override;
 
+	void AddActiveTrigger();
+	void RemoveActiveTrigger();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -28,4 +31,8 @@ private:
 	FVector GlobalTargetLocation;
 	UPROPERTY()
 	FVector GlobalStartLocation;
+
+	UPROPERTY(EditAnywhere)
+	int ActiveTriggers = 1;
+	
 };
