@@ -16,8 +16,13 @@ public:
 	virtual void Init() override;
 
 	UFUNCTION(Exec)
-	void Host();
-
+	void Host() const;
 	UFUNCTION(Exec)
-	void Join(const FString& IP);
+	void Join(const FString& IP) const;
+	
+	UFUNCTION(BlueprintCallable)
+	void LoadMenu();
+
+private:
+	TSubclassOf<UUserWidget> MainMenuBpClass;
 };

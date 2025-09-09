@@ -1,10 +1,14 @@
 ﻿
 
 #include "PuzzlePlatformsGameInstance.h"
+#include "Blueprint/UserWidget.h"
+
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer& ObjectInitializer)
 {
-	
+	const ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
+
+	MainMenuBpClass = MenuBPClass.Class;
 }
 
 void UPuzzlePlatformsGameInstance::Init()
@@ -12,22 +16,32 @@ void UPuzzlePlatformsGameInstance::Init()
 	Super::Init();
 }
 
-void UPuzzlePlatformsGameInstance::Host()
+void UPuzzlePlatformsGameInstance::Host() const
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Hosting Game");
 
 	GetWorld()->ServerTravel("/Game/ThirdPerson/Lvl_ThirdPerson?listen");
 }
 
-void UPuzzlePlatformsGameInstance::Join(const FString& IP)
+void UPuzzlePlatformsGameInstance::Join(const FString& IP) const
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Joining Game at %s"), *IP));
 
-	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
-
-	if (PlayerController)
+	if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
 	{
 		PlayerController->ClientTravel(IP, TRAVEL_Absolute);
+	}
+}
+
+void UPuzzlePlatformsGameInstance::LoadMenu()
+{
+	if (MainMenuBpClass)
+	{
+		UUserWidget* MainMenu = CreateWidget<UUserWidget>(this, MainMenuBpClass);
+		if (MainMenu)
+		{
+			MainMenu->AddToViewport();
+		}
 	}
 }
 
