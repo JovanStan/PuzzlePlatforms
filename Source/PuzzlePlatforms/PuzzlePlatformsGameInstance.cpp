@@ -1,6 +1,8 @@
 ﻿
 
 #include "PuzzlePlatformsGameInstance.h"
+
+#include "LevelEditorMenuContext.h"
 #include "Blueprint/UserWidget.h"
 
 
@@ -41,6 +43,16 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 		if (MainMenu)
 		{
 			MainMenu->AddToViewport();
+
+			if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
+			{
+				FInputModeUIOnly InputMode;
+				InputMode.SetWidgetToFocus(MainMenu->TakeWidget());
+				InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+				PlayerController->SetInputMode(InputMode);
+				PlayerController->bShowMouseCursor = true;
+			}
+			
 		}
 	}
 }
