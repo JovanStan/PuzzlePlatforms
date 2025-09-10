@@ -2,6 +2,33 @@
 #include "MainMenu.h"
 
 #include "Components/Button.h"
+#include "PuzzlePlatforms/PuzzlePlatformsGameInstance.h"
+
+void UMainMenu::Setup()
+{
+	this->AddToViewport();
+
+	if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
+	{
+		FInputModeUIOnly InputMode;
+		InputMode.SetWidgetToFocus(this->TakeWidget());
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		PlayerController->SetInputMode(InputMode);
+		PlayerController->bShowMouseCursor = true;
+	}
+}
+
+void UMainMenu::Teardown()
+{
+	this->RemoveFromParent();
+	
+	if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
+	{
+		const FInputModeGameOnly InputMode;
+		PlayerController->SetInputMode(InputMode);
+		PlayerController->bShowMouseCursor = false;
+	}
+}
 
 bool UMainMenu::Initialize()
 {
@@ -16,10 +43,16 @@ bool UMainMenu::Initialize()
 
 void UMainMenu::HostButtonClicked()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Hosting Game");
+	if (const UPuzzlePlatformsGameInstance* GameInstance = Cast<UPuzzlePlatformsGameInstance>(GetGameInstance()))
+	{
+		GameInstance->Host();
+	}
 }
 
 void UMainMenu::JoinButtonClicked()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Joining Game");
+	if (const UPuzzlePlatformsGameInstance* GameInstance = Cast<UPuzzlePlatformsGameInstance>(GetGameInstance()))
+	{
+		//GameInstance->Join();
+	}
 }

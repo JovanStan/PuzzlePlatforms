@@ -6,6 +6,8 @@
 #include "PuzzlePlatformsGameInstance.generated.h"
 
 
+class UMainMenu;
+
 UCLASS()
 class PUZZLEPLATFORMS_API UPuzzlePlatformsGameInstance : public UGameInstance
 {
@@ -25,4 +27,6 @@ public:
 
 private:
 	TSubclassOf<UUserWidget> MainMenuBpClass;
+	UPROPERTY()
+	TObjectPtr<UMainMenu> MainMenu;
 };

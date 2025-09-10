@@ -1,9 +1,8 @@
 ﻿
 
 #include "PuzzlePlatformsGameInstance.h"
-
-#include "LevelEditorMenuContext.h"
 #include "Blueprint/UserWidget.h"
+#include "UI/MainMenu.h"
 
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer& ObjectInitializer)
@@ -20,6 +19,10 @@ void UPuzzlePlatformsGameInstance::Init()
 
 void UPuzzlePlatformsGameInstance::Host() const
 {
+	if (MainMenu)
+	{
+		MainMenu->Teardown();
+	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Hosting Game");
 
 	GetWorld()->ServerTravel("/Game/ThirdPerson/Lvl_ThirdPerson?listen");
@@ -39,20 +42,10 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 {
 	if (MainMenuBpClass)
 	{
-		UUserWidget* MainMenu = CreateWidget<UUserWidget>(this, MainMenuBpClass);
+		MainMenu = CreateWidget<UMainMenu>(this, MainMenuBpClass);
 		if (MainMenu)
 		{
-			MainMenu->AddToViewport();
-
-			if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
-			{
-				FInputModeUIOnly InputMode;
-				InputMode.SetWidgetToFocus(MainMenu->TakeWidget());
-				InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-				PlayerController->SetInputMode(InputMode);
-				PlayerController->bShowMouseCursor = true;
-			}
-			
+			MainMenu->Setup();
 		}
 	}
 }

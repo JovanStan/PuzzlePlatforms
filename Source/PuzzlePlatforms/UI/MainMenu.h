@@ -6,6 +6,7 @@
 #include "MainMenu.generated.h"
 
 
+class IMenuInterface;
 class UButton;
 
 UCLASS()
@@ -13,6 +14,10 @@ class PUZZLEPLATFORMS_API UMainMenu : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	void Setup();
+	void Teardown();
+	
 protected:
 	virtual bool Initialize() override;
 	
@@ -27,4 +32,5 @@ private:
 	void HostButtonClicked();
 	UFUNCTION()
 	void JoinButtonClicked();
+	
 };
