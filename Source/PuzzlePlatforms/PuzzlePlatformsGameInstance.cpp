@@ -31,7 +31,11 @@ void UPuzzlePlatformsGameInstance::Host() const
 void UPuzzlePlatformsGameInstance::Join(const FString& IP) const
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Joining Game at %s"), *IP));
-
+	if (MainMenu)
+	{
+		MainMenu->Teardown();
+	}
+	
 	if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
 	{
 		PlayerController->ClientTravel(IP, TRAVEL_Absolute);
