@@ -6,6 +6,7 @@
 #include "PuzzlePlatformsGameInstance.generated.h"
 
 
+class UPauseMenu;
 class UMainMenu;
 
 UCLASS()
@@ -24,9 +25,15 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	void LoadMenu();
+	UFUNCTION(BlueprintCallable)
+	void LoadPauseMenu();
 
 private:
 	TSubclassOf<UUserWidget> MainMenuBpClass;
+	TSubclassOf<UUserWidget> PauseMenuBPClass;
+	
 	UPROPERTY()
 	TObjectPtr<UMainMenu> MainMenu;
+	UPROPERTY()
+	TObjectPtr<UPauseMenu> PauseMenu;
 };

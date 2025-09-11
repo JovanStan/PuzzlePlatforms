@@ -27,6 +27,8 @@ private:
 	TObjectPtr<UButton> HostButton;
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidget, AllowPrivateAccess = true))
 	TObjectPtr<UButton> OpenJoinMenuButton;
+	UPROPERTY(BlueprintReadOnly, meta=(BindWidget, AllowPrivateAccess = true))
+	TObjectPtr<UButton> QuitButton;
 	
 	UPROPERTY(BlueprintReadOnly, meta=(BindWidget, AllowPrivateAccess = true))
 	TObjectPtr<UButton> CancelButton;
@@ -48,6 +50,8 @@ private:
 	void HostButtonClicked();
 	UFUNCTION()
 	void OpenJoinMenuButtonClicked();
+	UFUNCTION()
+	void QuitButtonClicked();
 
 	UFUNCTION()
 	void CancelButtonClicked();
