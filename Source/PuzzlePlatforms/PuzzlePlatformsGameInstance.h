@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Interfaces/OnlineSessionInterface.h"
 #include "PuzzlePlatformsGameInstance.generated.h"
 
 
@@ -17,6 +18,7 @@ class PUZZLEPLATFORMS_API UPuzzlePlatformsGameInstance : public UGameInstance
 public:
 	UPuzzlePlatformsGameInstance(const FObjectInitializer& ObjectInitializer);
 	virtual void Init() override;
+	
 
 	UFUNCTION(Exec)
 	void Host() const;
@@ -36,4 +38,10 @@ private:
 	TObjectPtr<UMainMenu> MainMenu;
 	UPROPERTY()
 	TObjectPtr<UPauseMenu> PauseMenu;
+
+	void OnCreateSessionComplete(FName SessionName, bool Success);
+	void OnDestroySessionComplete(FName SessionName, bool Success);
+	
+	
+	IOnlineSessionPtr SessionInterface;
 };
